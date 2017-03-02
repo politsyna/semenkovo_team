@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Node_orders_entity_presave.
+ */
+function node_team_entity_presave(EntityInterface $node) {
+  if (method_exists($node, 'getType') && $node->getType() == 'team') {
+    $lastname = $node->field_team_name_last->value;
+    $name = $node->field_team_name->value;
+    $middlename = $node->field_team_name_middle->value;
+    $title = implode(' ', [$lastname, $name, $middlename]);
+    $node->title->setValue($title);
+  }
+}
